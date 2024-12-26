@@ -1,4 +1,3 @@
-import { group } from "console";
 import fs from "fs";
 
 const adnFilePath = "./adn.txt";
@@ -121,4 +120,32 @@ function splitAdnToGroupsOf5() {
 	return adnSequences;
 }
 
-console.log(splitAdnToGroupsOf5());
+//Etape B3 : Trouver les récurrence de chaque nucléotide au sein de chaque groupe de 5 codons
+
+function findRepeatedNucleotides() {
+	let adnSequences = splitAdnToGroupsOf5();
+	let countC, countT, countG, countA;
+	for (let i = 0; i < adnSequences.length; i++) {
+		countC = 0;
+		countT = 0;
+		countG = 0;
+		countA = 0;
+		for (let j = 0; j < adnSequences[i].length; j++) {
+			if (adnSequences[i][j] === "C") {
+				countC++;
+			}
+			if (adnSequences[i][j] === "T") {
+				countT++;
+			}
+			if (adnSequences[i][j] === "G") {
+				countG++;
+			}
+			if (adnSequences[i][j] === "A") {
+				countA++;
+			}
+		}
+		console.log(adnSequences[i][0][0], countC, countT, countG, countA);
+	}
+}
+
+findRepeatedNucleotides();
