@@ -19,6 +19,8 @@ const adnString = readFile(adnFilePath);
 //split la chaine de caractères tous les n caractères
 function splitStringIntoEqualsLengthStrings(stringToSplit, desiredSringLength) {
 	const arr = [];
+	// JFG -> Il faudrait éviter de référencer la chaine adnString ici, je ferais plutôt en sorte qu'elle me soit donnée par la méthode. Ceci évite ce qu'on appelle des effets de bords
+	// En fait, c'est même ce que tu as prévu sauf qu'au final tu n'utilise pas la variable prévue à cet effet (stringToSplit).
 	for (let i = 0; i < adnString.length; i += desiredSringLength) {
 		let codon = adnString.substring(i, i + desiredSringLength);
 		arr.push(codon);
@@ -96,6 +98,8 @@ function convertAdnToProtein() {
 		TGA: "_",
 		TGG: "W",
 	};
+	// JFG -> Ce "dictionnaire" / "map" mériterait d'être mis sous forme constante externe à cette méthde un truc du genre ADN_CONVERSION_TABLE
+	// ça simpliferait la lecture de ta méthode
 
 	const proteinArray = adnArray.map((codon) => {
 		return adnConversionTable[codon] || "?";
@@ -108,11 +112,12 @@ function convertAdnToProtein() {
 //Pourrait être améliorée
 function splitAdnToGroupsOf5() {
 	const adnWith25chars = splitStringIntoEqualsLengthStrings(adnString, 25);
-	let adnSequences = [];
+	let adnSequences = []; // JFG -> Tu peux le mettre en constante
 	for (let i = 0; i < adnWith25chars.length; i++) {
-		let groupsOf5 = [];
+		let groupsOf5 = []; // JFG -> Idem
 		for (let j = 0; j < adnWith25chars[i].length; j += 5) {
-			let adnGroupedBy5 = adnWith25chars[i].substring(j, j + 5).split("");
+			let adnGroupedBy5 = adnWith25chars[i].substring(j, j + 5).split(""); // JFG -> Idem
+			// Pourquoi ne pas réutiliser ta méthode splitStringIntoEqualsLengthStrings ici ? ça serait pertinent vu que tu veux des blocs de 5. ça faciliterait la lecture aussi
 			groupsOf5.push(adnGroupedBy5);
 		}
 		adnSequences.push(groupsOf5);
